@@ -11,6 +11,18 @@ def test_verify_email_correct_email():
     assert verify_email("test.testing+test@test.testing.test")
     assert verify_email("test_testing@test.test_test.lv")
     assert verify_email("     test@test.test    ")
+    assert verify_email(" t@test.tes")
+
+
+def test_verify_email_incorrect_email():
+    """Verifies that incorrect emails are identified"""
+    assert not verify_email("test@test.2")
+    assert not verify_email("test.@test.com")
+    assert not verify_email(".2@test.com")
+    assert not verify_email("test.testing+test@test")
+    assert not verify_email("test_testing@test.test_test._")
+    assert not verify_email("@")
+    assert not verify_email(" s test@test.com")
 
 
 def test_verify_email_errors():
