@@ -1,4 +1,4 @@
-"""File containing fixtures for tests"""
+"""File containing fixtures used for tests in test_regextexttools.py"""
 
 from pytest import fixture
 
@@ -18,10 +18,10 @@ def incorrect_inputs():
 @fixture
 def long_text_for_tests():
     """Returns a long story string"""
-    return """In a serene, sunlit meadow, 
+    return """In a serene, sunlit meadow;
     Sarah savored the fragrant roses blooming in rows. 
     As she strolled, a gentle breeze rustled through 
-    the colorful petals. The tranquil spell was broken when,
+    the colorful petals!? The tranquil spell was broken when,
     suddenly, Sarah spotted a mischievous squirrel scampering
     up a tall oak. Enchanted, she marveled at nature's whimsical
     ballet, feeling truly spellbound."""
