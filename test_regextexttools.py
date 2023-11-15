@@ -63,7 +63,7 @@ class TestFindEmails:
         assert not find_emails(" ", ending_positions=True)
 
 
-    def test_find_emails_ending_pos(self, email_text):
+    def test_find_emails_ending_starting_pos(self, email_text):
         """Verifies that starting and ending positions of emails are identified"""
         assert find_emails(email_text, ending_positions=True,
                            starting_positions=True) == [(0, 14), (16, 28)]
@@ -98,6 +98,15 @@ class TestVerifyStartsEnds:
         assert len(starts_with(long_text_for_tests, "k")) == 0
 
 
+    def test_starts_with_errors(self, incorrect_inputs):
+        """Verifies TypeError is raised when non-string
+        type data is used"""
+        incorrect_inputs = incorrect_inputs + [b'test']
+        for input in incorrect_inputs:
+            with raises(TypeError):
+                starts_with(input, "")
+
+
     def test_verify_ends_with(self, long_text_for_tests):
         """Verifies that ends_with correctly identifies words
         that end with selected text"""
@@ -105,3 +114,12 @@ class TestVerifyStartsEnds:
         assert len(ends_with(long_text_for_tests, "l")) == 6
         assert len(ends_with(long_text_for_tests.lower(), "as")) == 2
         assert len(ends_with(long_text_for_tests, "k")) == 1
+
+
+    def test_ends_with_errors(self, incorrect_inputs):
+        """Verifies TypeError is raised when non-string
+        type data is used"""
+        incorrect_inputs = incorrect_inputs + [b'test']
+        for input in incorrect_inputs:
+            with raises(TypeError):
+                ends_with(input, "")
