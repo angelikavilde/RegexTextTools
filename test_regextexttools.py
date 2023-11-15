@@ -4,6 +4,7 @@ from pytest import raises
 
 from regextexttools import find_emails, verify_email
 from regextexttools import starts_with, ends_with
+from regextexttools import split_punctuation
 
 
 class TestVerifyEmail:
@@ -123,3 +124,22 @@ class TestVerifyStartsEnds:
         for input in incorrect_inputs:
             with raises(TypeError):
                 ends_with(input, "")
+
+
+class TestPunctuationSplitter:
+    """Class that verifies that stop punctuation works as expected"""
+    def test_verify_split_punctuation(self, long_text_for_tests):
+        """Verifies that split punctuation correctly
+        splits the text by all punctuations"""
+        assert len(split_punctuation(long_text_for_tests)) == 51
+        assert not split_punctuation("")
+        assert split_punctuation("4") == ["4"]
+
+
+    def test_split_punctuation_errors(self, incorrect_inputs):
+        """Verifies TypeError is raised when non-string
+        type data is used"""
+        incorrect_inputs = incorrect_inputs + [b'test']
+        for input in incorrect_inputs:
+            with raises(TypeError):
+                split_punctuation(input)
