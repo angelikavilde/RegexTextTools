@@ -26,6 +26,7 @@ def verify_email(text: str) -> bool:
 
 
 LINK_REGEX = r"(?:https?:\/\/(?:w{3}.)?|w{3}.)\w[-\w]+(?:\.\w+)+\S*"
+"(?:https?:\/\/|w{3}\.)\w[-\w]+(?:\.\w+)*\.[a-z]+\S+|https?:\/\/w{3}\.\w[-\w]+(?:\.\w+)*\.[a-z]+"
 
 
 def find_links(text: str, starting_positions: bool=False, ending_positions: bool=False, query=False) -> list:
@@ -44,24 +45,35 @@ def verify_link(text: str) -> bool:
 
 def split_punctuation(text: str) -> list[str]:
     """Returns text split by stop punctuations"""
-    split_text = re.split(r"[,\s;\.]+", text)
+    split_text = re.split(r"[,\s;\.\\\?\!]+", text)
     return list(filter(None, split_text))
 
 
-if __name__ == "__main__":
-    a = """https://www.example/com    
-https://www.example.com    
-http://subdomain.example.co.uk   
-https://regexr.com/   
-https://www.example.com:8080/page   
-http://www.example.com/path/with/slashes  
-https://example.com?query=parameter 
-https://sub.example.com/ 
-https://docs.discord.red/en/latest/guide_slash_and_interactions.html 
-https://www.example.com:8080/page#section 
-https://www.example.co.uk.
-https://www.example.co.uk   
-http://subdomain.example.com/path?query=value#fragment"""
+def ends_with(text: str, e_with: str) -> list:
+    """Similar to 'endswith' but finds everything
+    in text and quickly"""
+    ends_with_regex = r"[^\W_]*" + e_with + r"(?=[,\s;\.\\])"
+    return re.findall(ends_with_regex, text + " ")
 
-    print(find_links(a))
-    print(split_punctuation("iuy"))
+
+def starts_with(text: str, s_with: str) -> list:
+    """Similar to 'startswith' but finds everything
+    in text and quickly"""
+    starts_with_regex = r"(?<=[,\s;\.\\])" + s_with + r"[^\W_]*"
+    return re.findall(starts_with_regex, " " + text)
+
+
+if __name__ == "__main__":
+#     a = """https://www.example/com    
+# https://www.example.com    
+# http://subdomain.example.co.uk   
+# https://regexr.com/   
+# https://www.example.com:8080/page   
+# http://www.example.com/path/with/slashes  
+# https://example.com?query=parameter 
+# https://sub.example.com/ 
+# https://docs.discord.red/en/latest/guide_slash_and_interactions.html 
+# https://www.example.com:8080/page#section 
+# https://www.example.co.uk.
+# https://www.example.co.uk   
+# http://subdomain.example.com/path?query=value#fragment"""
