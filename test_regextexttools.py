@@ -1,8 +1,9 @@
-""""""
+"""Tests for every function in regextexttools file"""
 
 from pytest import raises
 
 from regextexttools import find_emails, verify_email
+from regextexttools import starts_with, ends_with
 
 
 class TestVerifyEmail:
@@ -83,3 +84,24 @@ class TestFindEmails:
             find_emails(input, starting_positions=True)
             find_emails(input, starting_positions=True, ending_positions=True)
             find_emails(input, ending_positions=True)
+
+
+class TestVerifyStartsEnds:
+    """Class that verifies starts and ends _with
+    functions work as expected"""
+    def test_verify_starts_with(self, long_text_for_tests):
+        """Verifies that starts_with correctly identifies words
+        that start with selected text"""
+        assert len(starts_with(long_text_for_tests, "s")) == 12
+        assert len(starts_with(long_text_for_tests, "ro")) == 2
+        assert len(starts_with(long_text_for_tests.lower(), "sa")) == 3
+        assert len(starts_with(long_text_for_tests, "k")) == 0
+
+
+    def test_verify_ends_with(self, long_text_for_tests):
+        """Verifies that ends_with correctly identifies words
+        that end with selected text"""
+        assert len(ends_with(long_text_for_tests, "i")) == 0
+        assert len(ends_with(long_text_for_tests, "l")) == 6
+        assert len(ends_with(long_text_for_tests.lower(), "as")) == 2
+        assert len(ends_with(long_text_for_tests, "k")) == 1
