@@ -1,4 +1,4 @@
-""""""
+"""Library with various regex text tools to solve small code verifications"""
 
 import re
 
@@ -75,8 +75,9 @@ def validate_phone_number(text: str, prefix: str, length_range: tuple) -> bool:
     """Validates if the phone number is correct where length
     range accounts for only the number outside of the prefix length
     and the prefix can include the starting digit of the number"""
-    phone_number_regex = str(prefix) + r"[\d]" + str(
-            {length_range[0],length_range[1]}).replace(" ", "")
+    prefix = (str(prefix)).replace("+","/+")
+    phone_number_regex = prefix + r"[\d]{" + f"{str(length_range[0])
+                                },{str(length_range[1])}" + "}"
     return bool(re.fullmatch(phone_number_regex, text.strip()))
 
 
@@ -94,7 +95,7 @@ if __name__ == "__main__":
 # https://www.example.co.uk.
 # https://www.example.co.uk   
 # http://subdomain.example.com/path?query=value#fragment"""
-    string = '07473703539'
-    # print(validate_text(string),string)
-    # pass
-    print(validate_phone_number(string, 0, (10,11)))
+    # string = '07473703539'
+    # # print(validate_text(string),string)
+    pass
+    # print(validate_phone_number(string, 0, (10,11)))
