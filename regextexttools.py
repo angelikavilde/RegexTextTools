@@ -71,6 +71,13 @@ def starts_with(text: str, s_with: str) -> list:
     return re.findall(starts_with_regex, " " + text)
 
 
+def validate_phone_number(text: str, prefix: str, length_range: tuple) -> bool:
+    """Validates if the phone number is correct where length
+    range accounts for only the number outside of the prefix length
+    and the prefix can include the starting digit of the number"""
+    phone_number_regex = str(prefix) + r"[\d]" + str(
+            {length_range[0],length_range[1]}).replace(" ", "")
+    return bool(re.fullmatch(phone_number_regex, text.strip()))
 
 
 if __name__ == "__main__":
@@ -87,4 +94,7 @@ if __name__ == "__main__":
 # https://www.example.co.uk.
 # https://www.example.co.uk   
 # http://subdomain.example.com/path?query=value#fragment"""
-    pass
+    string = '07473703539'
+    # print(validate_text(string),string)
+    # pass
+    print(validate_phone_number(string, 0, (10,11)))
